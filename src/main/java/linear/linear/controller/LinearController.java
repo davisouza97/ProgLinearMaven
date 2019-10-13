@@ -31,18 +31,20 @@ public class LinearController {
 	Simplex simplex;
 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public ModelAndView form(@RequestParam(required = false) String zFinal, String saFinal, String nFinal) {
+	public ModelAndView form(@RequestParam(required = true) String zFinal, String saFinal, String nFinal) {
 
 		ModelAndView mv = new ModelAndView("/result");
 
-		//zFinal = zFinal != null ? "" : zFinal;
-		//saFinal = saFinal != null ? "" : saFinal;
-		//nFinal = nFinal != null ? "" : nFinal;
+		//zFinal = zFinal == null ? "" : zFinal;
+		//saFinal = saFinal == null ? "" : saFinal;
+		//nFinal = nFinal == null ? "" : nFinal;
+		System.out.println("z"+zFinal);
+		System.out.println("sa"+saFinal);
+		System.out.println("n"+nFinal);
 		
-		
-		zFinal ="max=3x + 2y ";
-		saFinal = "x <= 4 ; 2y <= 12 ; 3x+2y<=18 ";
-		nFinal = "x>=0;y>=0";
+		//zFinal ="max=3x + 2y ";
+		//saFinal = "x <= 4 ; 2y <= 12 ; 3x+2y<=18 ";
+		//nFinal = "x>=0;y>=0";
 		float[][] tabelaInicial = preparaMontarTabela(zFinal, saFinal, nFinal);
 
 		simplex = new Simplex(tabelaInicial, listaVariaveisGlobal);
@@ -52,7 +54,7 @@ public class LinearController {
 		return mv;
 	}
 
-//
+
 	@RequestMapping(value = "/a")
 	public ModelAndView escalonar() {
 

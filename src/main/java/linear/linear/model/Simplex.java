@@ -23,7 +23,7 @@ public class Simplex {
     public String situacao;
     public static float bigMValor = 99999f;
     
-    ArrayList<Variavel> listaVariaveisGlobal;
+    public ArrayList<Variavel> listaVariaveisGlobal;
 
     public static enum TIPO {
         NAO_OTIMO,
@@ -65,6 +65,7 @@ public class Simplex {
         System.out.println("ColunaPivo: " + listaVariaveisGlobal.get(colunaPivo).getNome() + "(" + colunaPivo + ")");
 
         int linhaPivo = encontarLinhaPivo(colunaPivo);
+        System.out.println("Linha Pivo"+linhaPivo);
         if (linhaPivo == -1) {
         	situacao = "Não Finito";
             return TIPO.NAO_FINITO;
@@ -119,9 +120,6 @@ public class Simplex {
                 index = i;
             }
         }
-//        System.out.println("menor linha z: " + negativo);
-//        System.out.println("posicao linha z: " + index);
-//        print();
         return index;
     }
 
@@ -216,6 +214,18 @@ public class Simplex {
 		}
         return tabelaResultado;
     }    
+    
+    public ArrayList<Variavel> getVariaveisBasicasArray() {
+    	ArrayList<Variavel> resultado = new ArrayList<>();
+    	for (int i = 0; i < variaveisBasicas.length; i++) {
+			resultado.add(variaveisBasicas[i]);
+		}
+    	Variavel z = new Variavel();
+    	z.setNome("Z");
+    	resultado.add(z);
+    	return resultado;
+    	
+    }
     
     public String toString() {
     	String resultado = "";

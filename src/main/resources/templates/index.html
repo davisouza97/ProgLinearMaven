@@ -19,6 +19,9 @@
 	</nav>
 	<div class="divider"></div>
 	<form method="post">
+		<input type="hidden" id="zFinal" name="zFinal">
+		<input type="hidden" id="saFinal" name="saFinal">
+		<input type="hidden" id="nFinal" name="nFinal">
 		<div class="section">
 			<div class="row">
 				<div class="col s2">
@@ -76,14 +79,10 @@
 		</div>
 		<div class="center-align">
 			<a class="tooltipped" data-position="bottom" data-tooltip="Iniciar Processo">
-				<button class="btn-floating" type="submit" onmouseover="montaString()"><i
+				<button class="btn-floating" type="submit" onclick="montaString()"><i
 						class="material-icons center-align">chevron_right</i></button>
 			</a>
 		</div>
-
-		<input type="hidden" id="zFinal" value = "max=3x + 2y " >
-		<input type="hidden" id="saFinal" value = " x <= 4 ;2y <= 12 ;3x+2y<=18">
-		<input type="hidden" id="nFinal" value = "x>=0;y>=0">
 	</form>
 
 

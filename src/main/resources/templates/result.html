@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultra1.net.nz/thymeleaf/layout">
+
+<head>
+	<title>SIMPLEX E BIG M</title>
+	<meta charset="utf-8" />
+
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+	<!--Import materialize.css-->
+	<link type="text/css" rel="stylesheet" href="materialize/css/materialize.css" media="screen,projection" />
+</head>
+
+<body class="grey darken-3">
+	<p th:text="${simplex.situacao}"></p>
+	<table>
+		<tr th:each="linha:${simplex.getTabelaArray()}">
+			<td th:each="coluna:${linha}">
+				<p th:text="${coluna}"></p>
+			</td>
+		</tr>
+	</table>
+	<a href="/a">prox</a>
+
+	<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+</body>
+
+</html>

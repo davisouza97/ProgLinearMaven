@@ -35,9 +35,14 @@ public class LinearController {
 
 		ModelAndView mv = new ModelAndView("/result");
 
-		zFinal = zFinal == null ? "" : zFinal;
-		saFinal = saFinal == null ? "" : saFinal;
-		nFinal = nFinal == null ? "" : nFinal;
+		//zFinal = zFinal != null ? "" : zFinal;
+		//saFinal = saFinal != null ? "" : saFinal;
+		//nFinal = nFinal != null ? "" : nFinal;
+		
+		
+		zFinal ="max=3x + 2y ";
+		saFinal = "x <= 4 ; 2y <= 12 ; 3x+2y<=18 ";
+		nFinal = "x>=0;y>=0";
 		float[][] tabelaInicial = preparaMontarTabela(zFinal, saFinal, nFinal);
 
 		simplex = new Simplex(tabelaInicial, listaVariaveisGlobal);

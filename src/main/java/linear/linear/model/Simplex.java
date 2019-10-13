@@ -104,8 +104,6 @@ public class Simplex {
                     index = i;
                     menor = tabela[i][numeroColunas - 1] / tabela[i][colunaPivo];
                 }
-            } else {
-                i++;
             }
         }
         return index;

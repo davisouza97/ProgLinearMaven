@@ -133,7 +133,8 @@ public class Simplex {
     }
 
     private boolean verificaMultiplasSolucoes() {
-        for (int i = 0; i < tabela[linhaZ].length - 2; i++) {
+        for (int i = 0; i < tabela[linhaZ].length - 1; i++) {
+        	System.out.println(listaVariaveisGlobal.get(i).getNome());
             if (!verificaVariavelBasica(listaVariaveisGlobal.get(i).getNome())) {
                 if (tabela[linhaZ][i] == 0) {
                     for (int j = 0; j < numeroLinhas - 1; j++) {

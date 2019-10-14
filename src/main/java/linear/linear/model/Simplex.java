@@ -21,6 +21,7 @@ public class Simplex {
     Variavel[] variaveisBasicas;
 
     public String situacao;
+    public String degenerado = "";
     public static float bigMValor = 99999f;
     
     public ArrayList<Variavel> listaVariaveisGlobal;
@@ -99,8 +100,11 @@ public class Simplex {
         int index = -1;
         float menor = Float.MAX_VALUE;
         for (int i = 0; i < numeroLinhas - 1; i++) {
+        	if(tabela[i][numeroColunas - 1]==0) {
+        		degenerado = "degenerado";
+        	}
             if (tabela[i][colunaPivo] > variaveisBasicas[i].getMaiorQue()) {
-                if (tabela[i][numeroColunas - 1] / tabela[i][colunaPivo] < menor) {
+            	if (tabela[i][numeroColunas - 1] / tabela[i][colunaPivo] < menor) {
                     index = i;
                     menor = tabela[i][numeroColunas - 1] / tabela[i][colunaPivo];
                 }

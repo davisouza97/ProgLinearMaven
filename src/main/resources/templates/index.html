@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>
 </head>
 
-<body class="blue-grey lighten-4">
+<body class="grey darken-3">
 	<nav>
 		<div class="nav-wrapper teal lighten-2">
 			<a class="brand-logo center">Simplex & Big M</a>
@@ -28,13 +28,13 @@
 					<p>
 						<label>
 							<input name="z" id="z" type="radio" value="max=" required/>
-							<span>Zmax</span>
+							<span class="white-text" >Zmax</span>
 						</label>
 					</p>
 					<p>
 						<label>
 							<input name="z" id="z" type="radio" value="min=" required/>
-							<span>Zmin</span>
+							<span class="white-text">Zmin</span>
 						</label>
 					</p>
 				</div>
@@ -50,7 +50,7 @@
 					<thead>
 						<tr>
 							<th>
-								Restrições
+								<span class="white-text">Restrições</span>
 							</th>
 							<th>
 								<a class="btn-floating waves-effect waves-light" onclick="adicionaLinha('restricao')"><i
@@ -66,11 +66,13 @@
 					<thead>
 						<tr>
 							<th>
-								Nulidades
+								<span class="white-text">Nulidades</span>
 							</th>
 							<th>
 								<a class="btn-floating waves-effect waves-light" onclick="adicionaLinha('nulidade')"><i
 										class="material-icons">add</i></a>
+								<a class="waves-effect waves-light btn" onclick="nulidadePadrao()">Add Nulidade Padrão</a>
+										
 							</th>
 						</tr>
 					</thead>
@@ -107,6 +109,24 @@
 				document.getElementById('restricao').deleteRow(i);
 			}
 		}
+		
+		
+		function nulidadePadrao(){
+			var tabela = document.getElementById("nulidade");
+			var z = document.getElementById("funcaoZ");
+			var funcao = z.value;
+			var variaveis = funcao.match(/[a-z]/g);
+			console.log(variaveis);
+			for (let index = 0; index < variaveis.length; index++){
+				console.log(variaveis[index]);
+				var numeroLinhas = tabela.rows.length;
+				var linha = tabela.insertRow(numeroLinhas);
+				var celula1 = linha.insertCell(0);
+				var celula2 = linha.insertCell(1);
+				celula1.innerHTML = "<input type='text' name='"+ "nulidade"+ "Valor' value='"+variaveis[index]+">=0' required>";
+				celula2.innerHTML = "<button class='btn-floating' onclick='removeLinha(this)'><i class='material-icons center-align'>delete_forever</i></button>";		
+			}
+		} 
 		
 		function montaString() {
 			var radios = document.getElementsByName('z');

@@ -22,13 +22,13 @@
 		</div>
 	</nav>
 	<div class="row">
-	<div class="col s2"></div>
-	<div class="col s4">
-	<div class="card-panel blue-grey darken-1">
-		<span class="white-text" th:text="${simplex.situacao}"></span>
-		<span class="white-text" th:text="${simplex.degenerado}"></span>
-	</div>
-	</div>
+		<div class="col s2"></div>
+		<div class="col s4">
+			<div class="card-panel blue-grey darken-1">
+				<span class="white-text" th:text="${simplex.situacao}"></span> <span
+					class="white-text" th:text="${simplex.degenerado}"></span>
+			</div>
+		</div>
 	</div>
 	<div class="row">
 		<div class="col s2"></div>
@@ -46,8 +46,8 @@
 							</tr>
 						</thead>
 						<tr th:each="linha, i :${simplex.getTabelaArray()}">
-							<td>
-								<span th:text="${simplex.getVariaveisBasicasArray()[i.index].getNome()}"></span>
+							<td><span
+								th:text="${simplex.getVariaveisBasicasArray()[i.index].getNome()}"></span>
 							</td>
 							<td th:each="coluna:${linha}">
 								<p th:text="${coluna}"></p>
@@ -60,8 +60,11 @@
 	</div>
 	<div class="section"></div>
 	<div class="center-align">
-		<a class="waves-effect blue-grey darken-1 btn" href="/a">Proxima
-			Etapa</a>
+
+		<a class="waves-effect blue-grey darken-1 btn"
+			th:classappend="${simplex.situacao =='Solução Otima'} ? 'disabled' : ''"
+			th:text="${simplex.situacao == 'Solução Otima'} ? 'Resultado Final' : 'Proxima Etapa'"
+			href="/a">Proxima Etapa</a>
 	</div>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>

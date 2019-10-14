@@ -19,7 +19,7 @@ public class LinearController {
 	static Pattern patternVariavel = Pattern.compile("[+-]*\\d*[a-z]\\d*|[=]\\d*[a-z]?");
 	static Pattern patternLetra = Pattern.compile("[a-z]");
 	static Pattern patternValor = Pattern.compile("[+-]*[\\d]*");
-
+	
 	static ArrayList<Variavel> listaVariaveisGlobal = new ArrayList<Variavel>();
 	static int numeroColunasGlobal;
 	static int numeroLinhasGlobal = 0;
@@ -34,17 +34,10 @@ public class LinearController {
 	public ModelAndView form(@RequestParam(required = true) String zFinal, String saFinal, String nFinal) {
 
 		ModelAndView mv = new ModelAndView("/result");
-
-		//zFinal = zFinal == null ? "" : zFinal;
-		//saFinal = saFinal == null ? "" : saFinal;
-		//nFinal = nFinal == null ? "" : nFinal;
+		
 		System.out.println("z"+zFinal);
 		System.out.println("sa"+saFinal);
 		System.out.println("n"+nFinal);
-		
-		//zFinal ="max=3x + 2y ";
-		//saFinal = "x <= 4 ; 2y <= 12 ; 3x+2y<=18 ";
-		//nFinal = "x>=0;y>=0";
 		float[][] tabelaInicial = preparaMontarTabela(zFinal, saFinal, nFinal);
 
 		simplex = new Simplex(tabelaInicial, listaVariaveisGlobal);
@@ -53,7 +46,6 @@ public class LinearController {
 
 		return mv;
 	}
-
 
 	@RequestMapping(value = "/a")
 	public ModelAndView escalonar() {
@@ -66,7 +58,21 @@ public class LinearController {
 		return mv;
 	}
 
+	@RequestMapping(value = "/a", method = RequestMethod.POST)
+	public ModelAndView resetar() {
+
+		ModelAndView mv = new ModelAndView("index");
+
+		simplex = null;
+
+		//mv.addObject("simplex", simplex);
+		return mv;
+	}
+
+	
+
 	public static float[][] preparaMontarTabela(String objetiva, String restricoesSA, String nulidades) {
+		//prepara as strings que foram pegas na tela
 		// prepara a funcao objetiva e defina se é de min ou max
 		objetiva = preparaObjetiva(objetiva);
 		// prepara as Restricoes
@@ -78,12 +84,14 @@ public class LinearController {
 	}
 
 	private static String preparaObjetiva(String objetiva) {
-		objetiva = objetiva.replaceAll(" ", "");
-		objetiva = objetiva.toLowerCase();
+		//define se o Z é de max ou min
+		
+		objetiva = objetiva.replaceAll(" ", "");//tirar espaços
+		objetiva = objetiva.toLowerCase();//transforma possiveis letras maiusculas em minusculas
 		if (objetiva.contains("max")) {
 			minimizacao = false;
 		}
-		objetiva = objetiva.substring(4);// retirar o "max="
+		objetiva = objetiva.substring(4);// retira o "max=" que veio na string
 		if (minimizacao) {
 			System.out.println("O problema é de minimização");
 		} else {
@@ -93,6 +101,8 @@ public class LinearController {
 	}
 
 	private static StringTokenizer preparaRestricoes(String restricoes) {
+		//separa a string de restricao ou nulidade em tokens, sepando pela ocorrencia de ";" 
+		
 		restricoes = restricoes.replaceAll(" ", "");
 		StringTokenizer listaRestricoesToken = new StringTokenizer(restricoes, ";");
 		return listaRestricoesToken;
@@ -100,7 +110,9 @@ public class LinearController {
 
 	private static float[][] MontarTabela(String objetiva, StringTokenizer listaRestricoesToken,
 			StringTokenizer restricoesNulidadeToken) {
+		//depois de  todas as Strings trabalhadas, monta a tabela
 		float[] linhaZ = montaLinhaZ(objetiva);
+		
 		listaRestricoesToken = new StringTokenizer(ajustaRestricao(listaRestricoesToken), ";");
 		int quantidadeRestricoes = listaRestricoesToken.countTokens();
 		float[][] tabela = new float[numeroLinhasGlobal + 1][numeroColunasGlobal + 1];
@@ -121,17 +133,22 @@ public class LinearController {
 	}
 
 	private static float[] montaLinhaZ(String objetiva) {
+		//monta a linha z a partir da string 
+		
 		Matcher m = getVariaveisByRegex(objetiva);
+		//usa regex para pegar as ocorrencias das variaveis
+		
 		ArrayList<Float> linhaObjetiva = new ArrayList<>();
 		while (m.find()) {
-			// System.out.println(m.group());
 			Variavel v = new Variavel();
 			String nomeVariavel = m.group().substring(m.group().length() - 1);
 			String valorVariavel = m.group().replaceAll(nomeVariavel, "");
 			if (valorVariavel.equalsIgnoreCase("+") || valorVariavel.equalsIgnoreCase("")) {
+				//se o variavel for +x ou x transforma o seu valor em 1
 				valorVariavel = "1";
 			}
 			if (valorVariavel.equalsIgnoreCase("-")) {
+				//se o variavel for -x transforma o seu valor em -1
 				valorVariavel = "-1";
 			}
 			v.setNome(nomeVariavel);
@@ -141,6 +158,7 @@ public class LinearController {
 		}
 		float[] linhaObjetivaVetor = new float[linhaObjetiva.size()];
 		for (int i = 0; i < linhaObjetiva.size(); i++) {
+			//transpõe o Array em um Vetor
 			linhaObjetivaVetor[i] = linhaObjetiva.get(i);
 		}
 
@@ -148,6 +166,7 @@ public class LinearController {
 	}
 
 	private static float[] montaLinhaRestricao(String restricao) {
+		//monta a linha das restricoes(todas exceto a Z)
 		Matcher matcherVariaveis = getVariaveisByRegex(restricao);// todas as variaveis e a igualdade
 		float[] linhaRestricao = new float[numeroColunasGlobal + 1];
 		ArrayList<String> variaveisRestricao = new ArrayList<>();
@@ -192,6 +211,7 @@ public class LinearController {
 	}
 
 	private static String ajustaRestricao(StringTokenizer listaRestricoesToken) {
+		//pega as restricoes e ajusta(colonado variaveis Artificiais e de Folga)
 		int quantArtificialMaisFolga = 0;
 		int numeroRestircaoLocal = 0;
 		String restricaoReturn = "";
@@ -235,14 +255,14 @@ public class LinearController {
 			System.out.println("");
 			restricaoReturn += restricao + ";";
 		}
-
 		numeroColunasGlobal += quantArtificialMaisFolga;
+		
 		numeroLinhasGlobal = numeroRestircaoLocal;
 		return restricaoReturn;
 	}
 
 	private static void setNulidades(StringTokenizer restricoesNulidadeToken) {
-
+		//seta os valores de nulidade das variaveis
 		while (restricoesNulidadeToken.hasMoreElements()) {
 			String nulidade = restricoesNulidadeToken.nextElement().toString();
 			Matcher varNulidade = getVariaveisByRegex(nulidade);
@@ -261,7 +281,5 @@ public class LinearController {
 
 		}
 		System.out.println();
-
 	}
-
 }

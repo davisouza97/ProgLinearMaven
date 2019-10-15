@@ -28,7 +28,7 @@ public class Variavel {
   }
 
   public void setTipo() {
-      this.tipo = nome.replaceAll("\\d", tipo);
+      this.tipo = nome.replaceAll("\\d", "");
   }
   
   @Override

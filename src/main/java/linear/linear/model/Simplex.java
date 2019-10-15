@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @EntityScan
 public class Simplex {
-
+  public boolean cabo = false;
 	public float[][] tabela; // tabela simplex
 	
 	private int numeroLinhas, numeroColunas;
@@ -45,12 +45,17 @@ public class Simplex {
 	}
 
 	public TIPO compute() {
-		if (verificaBigM()) {
+		while (verificaBigM()) {
+			print();
 			tabela = bigM();
+			print();
 			situacao = "Aplicando Metodo Big M";
-			return TIPO.BIG_M;
-		} else {
+			
+		} 
 			if (verificaOtimo()) {
+				cabo = true;
+				System.out.print("entrei no verifica ótimo");
+				
 				if (verificaMultiplasSolucoes()) {
 					situacao = "Multiplas Soluções";
 					return TIPO.MULTIPLO;
@@ -60,8 +65,7 @@ public class Simplex {
 				}
 			}
 			int colunaPivo = encontraColunaPivo();
-			System.out
-					.println("ColunaPivo: " + listaVariaveisGlobal.get(colunaPivo).getNome() + "(" + colunaPivo + ")");
+			System.out.println("ColunaPivo: " + listaVariaveisGlobal.get(colunaPivo).getNome() + "(" + colunaPivo + ")");
 
 			int linhaPivo = encontarLinhaPivo(colunaPivo);
 			System.out.println("Linha Pivo" + linhaPivo);
@@ -69,12 +73,34 @@ public class Simplex {
 				situacao = "Não Finito";
 				return TIPO.NAO_FINITO;
 			}
+			
 			escalonar(linhaPivo, colunaPivo);
+			print();
 			situacao = "Não Otimo";
 			return TIPO.NAO_OTIMO;
 		}
-	}
-
+	
+	public void print() {
+		 System.out.print("\t");
+	        for (int i = 0; i < listaVariaveisGlobal.size(); i++) {
+	            System.out.print(listaVariaveisGlobal.get(i).getNome() + "\t");
+	        }
+	        System.out.println("");
+	        for (int i = 0; i < numeroLinhas; i++) {
+	            if (i < variaveisBasicas.length) {
+	                System.out.print(variaveisBasicas[i].getNome() + "\t");
+	            } else {
+	                System.out.print("Z\t");
+	            }
+	            for (int j = 0; j < numeroColunas; j++) {
+	                float value = tabela[i][j];
+	                System.out.print(value + "\t");
+	            }
+	            System.out.println();
+	        }
+	        System.out.println();
+	    }
+    
 	private void escalonar(int linhaPivo, int colunaPivo) {
 		trocaVariavelBasica(linhaPivo, colunaPivo);
 		float celulaPivo = tabela[linhaPivo][colunaPivo];
@@ -182,6 +208,7 @@ public class Simplex {
 
 	private boolean verificaBigM() {
 		for (int i = 0; i < tabela[0].length; i++) {
+			
 			if (tabela[linhaZ][i] == bigMValor) {
 				return true;
 			}

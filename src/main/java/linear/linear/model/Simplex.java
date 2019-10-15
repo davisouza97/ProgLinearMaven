@@ -1,5 +1,5 @@
 package linear.linear.model;
-
+//autores: Davi, Isaac e Walter
 import java.util.ArrayList;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;

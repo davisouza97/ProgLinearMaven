@@ -1,5 +1,5 @@
 package linear.linear.controller;
-
+//autores: Davi, Isaac e Walter
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;

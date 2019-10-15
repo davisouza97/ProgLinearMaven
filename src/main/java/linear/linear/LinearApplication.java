@@ -1,5 +1,5 @@
 package linear.linear;
-
+//autores: Davi, Isaac e Walter
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

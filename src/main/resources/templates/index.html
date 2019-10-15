@@ -1,14 +1,24 @@
 <!DOCTYPE html>
-<html xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultra1.net.nz/thymeleaf/layout">
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:layout="http://www.ultra1.net.nz/thymeleaf/layout">
 
 <head>
-	<title>SIMPLEX E BIG M</title>
-	<meta charset="utf-8" />
+<title>SIMPLEX E BIG M</title>
+<meta charset="utf-8" />
 
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-	<!--Import materialize.css-->
-	<link type="text/css" rel="stylesheet" href="/materialize/css/materialize.css" media="screen,projection" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet" />
+<!--Import materialize.css-->
+<link type="text/css" rel="stylesheet"
+	href="/materialize/css/materialize.css" media="screen,projection" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+
+<style>
+input {
+	color: white;
+}
+</style>
 </head>
 
 <body class="grey darken-3">
@@ -18,28 +28,27 @@
 		</div>
 	</nav>
 	<div class="divider"></div>
-	<form method="post">
-		<input type="hidden" id="zFinal" name="zFinal">
-		<input type="hidden" id="saFinal" name="saFinal">
-		<input type="hidden" id="nFinal" name="nFinal">
+	<form method="post" name="formulario">
+		<input type="hidden" id="zFinal" name="zFinal"> <input
+			type="hidden" id="saFinal" name="saFinal"> <input
+			type="hidden" id="nFinal" name="nFinal">
 		<div class="section">
 			<div class="row">
 				<div class="col s2">
 					<p>
-						<label>
-							<input name="z" id="z" type="radio" value="max=" required/>
-							<span class="white-text" >Zmax</span>
+						<label> <input name="z" id="z" type="radio" value="max="
+							required /> <span class="white-text">Zmax</span>
 						</label>
 					</p>
 					<p>
-						<label>
-							<input name="z" id="z" type="radio" value="min=" required/>
-							<span class="white-text">Zmin</span>
+						<label> <input name="z" id="z" type="radio" value="min="
+							required /> <span class="white-text">Zmin</span>
 						</label>
 					</p>
 				</div>
 				<div class="col s4">
-					<input placeholder="Função" id="funcaoZ" name="z" type="text" class="validate left-align" required>
+					<input placeholder="Função" id="funcaoZ" name="zFunc" type="text"
+						class="validate left-align" required>
 				</div>
 			</div>
 		</div>
@@ -49,13 +58,10 @@
 				<table id="restricao">
 					<thead>
 						<tr>
-							<th>
-								<span class="white-text">Restrições</span>
-							</th>
-							<th>
-								<a class="btn-floating waves-effect waves-light" onclick="adicionaLinha('restricao')"><i
-										class="material-icons">add</i></a>
-							</th>
+							<th><span class="white-text">Restrições</span></th>
+							<th><a class="btn-floating waves-effect waves-light"
+								onclick="adicionaLinha('restricao')"><i
+									class="material-icons">add</i></a></th>
 
 						</tr>
 					</thead>
@@ -65,40 +71,40 @@
 				<table id="nulidade">
 					<thead>
 						<tr>
-							<th>
-								<span class="white-text">Nulidades</span>
-							</th>
-							<th>
-								<a class="btn-floating waves-effect waves-light" onclick="adicionaLinha('nulidade')"><i
-										class="material-icons">add</i></a>
-								<a class="waves-effect waves-light btn" onclick="nulidadePadrao()">Add Nulidade Padrão</a>
-										
-							</th>
+							<th><span class="white-text">Nulidades</span></th>
+							<th><a class="btn-floating waves-effect waves-light"
+								onclick="adicionaLinha('nulidade')"><i
+									class="material-icons">add</i></a> <a
+								class="waves-effect waves-light btn" onclick="nulidadePadrao()">Add
+									Nulidade Padrão</a></th>
 						</tr>
 					</thead>
 				</table>
 			</div>
 		</div>
 		<div class="center-align">
-			<a class="tooltipped" data-position="bottom" data-tooltip="Iniciar Processo">
-				<button class="btn-floating" type="submit" onclick="montaString()"><i
-						class="material-icons center-align">chevron_right</i></button>
+			<a class="tooltipped" data-position="bottom"
+				data-tooltip="Iniciar Processo">
+				<button class="btn-floating" type="submit" onclick="montaString()">
+					<i class="material-icons center-align">chevron_right</i>
+				</button>
 			</a>
 		</div>
 	</form>
 
 
-	<script>//Funcao adiciona uma nova linha na tabela
+	<script>
+		//Funcao adiciona uma nova linha na tabela
 		function adicionaLinha(idTabela) {
 			var tabela = document.getElementById(idTabela);
 			var numeroLinhas = tabela.rows.length;
 			var linha = tabela.insertRow(numeroLinhas);
 			var celula1 = linha.insertCell(0);
 			var celula2 = linha.insertCell(1);
-			celula1.innerHTML = "<input type='text' name='"+ idTabela+ "Valor' required>";
+			celula1.innerHTML = "<input type='text' id='restricoes' name='"+ idTabela+ "Valor' required>";
 			celula2.innerHTML = "<button class='btn-floating' onclick='removeLinha(this)'><i class='material-icons center-align'>delete_forever</i></button>";
 		}
-		
+
 		// funcao remove uma linha da tabela
 		function removeLinha(linha) {
 			var i = linha.parentNode.parentNode.rowIndex;
@@ -109,25 +115,24 @@
 				document.getElementById('restricao').deleteRow(i);
 			}
 		}
-		
-		
-		function nulidadePadrao(){
+
+		function nulidadePadrao() {
 			var tabela = document.getElementById("nulidade");
 			var z = document.getElementById("funcaoZ");
 			var funcao = z.value;
 			var variaveis = funcao.match(/[a-z]/g);
 			console.log(variaveis);
-			for (let index = 0; index < variaveis.length; index++){
+			for (let index = 0; index < variaveis.length; index++) {
 				console.log(variaveis[index]);
 				var numeroLinhas = tabela.rows.length;
 				var linha = tabela.insertRow(numeroLinhas);
 				var celula1 = linha.insertCell(0);
 				var celula2 = linha.insertCell(1);
-				celula1.innerHTML = "<input type='text' name='"+ "nulidade"+ "Valor' value='"+variaveis[index]+">=0' required>";
-				celula2.innerHTML = "<button class='btn-floating' onclick='removeLinha(this)'><i class='material-icons center-align'>delete_forever</i></button>";		
+				celula1.innerHTML = "<input type='text' id='nulidades' name='"+ "nulidade"+ "Valor' value='"+variaveis[index]+">=0' required>";
+				celula2.innerHTML = "<button class='btn-floating' onclick='removeLinha(this)'><i class='material-icons center-align'>delete_forever</i></button>";
 			}
-		} 
-		
+		}
+
 		function montaString() {
 			var radios = document.getElementsByName('z');
 			var zFuncao = document.getElementById("funcaoZ").value;
@@ -142,20 +147,13 @@
 			var restricoes = document.getElementsByName('restricaoValor');
 			var restricaoString = "";
 			for (var j = 0, size1 = restricoes.length; j < size1; j++) {
-				restricaoString+= restricoes[j].value;
-				if (j !== size1-1) {
-					restricaoString+=";";
-			
-				}
+				restricaoString += restricoes[j].value + ";";
 			}
-			
+
 			var nulidades = document.getElementsByName('nulidadeValor');
 			var nulidadeString = "";
 			for (var k = 0, size2 = nulidades.length; k < size2; k++) {
-				nulidadeString += nulidades[k].value;
-				if (k !== size1-1) {
-					nulidadeString+=";";
-				}
+				nulidadeString += nulidades[k].value + ";";
 			}
 			console.log(z);
 			console.log(restricaoString);
@@ -167,8 +165,10 @@
 			console.log(document.getElementById("zFinal").value);
 			console.log(document.getElementById("saFinal").value);
 			console.log(document.getElementById("nFinal").value);
-		}</script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+		}
+	</script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 	<script type="text/javascript" src="materialize/js/materialize.js"></script>
 </body>
 

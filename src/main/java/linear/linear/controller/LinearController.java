@@ -185,7 +185,7 @@ public class LinearController {
 				if (Pattern.matches("[+-][af][\\d]", interacao)) { // variavel a ou f
 					nomeVariavel = interacao.replaceAll("[+-]", "");
 					String valorFA = interacao.replaceAll("[\\d]", "");
-					valorFA = interacao.replaceAll("[fa]", "");
+					valorFA = valorFA.replaceAll("[fa]", "");
 					valorVariavel = valorFA;
 				} else {
 					nomeVariavel = interacao.replaceAll("[0-9]|[+-]", "");

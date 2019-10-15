@@ -1,6 +1,5 @@
 package linear.linear.model;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -17,11 +16,13 @@ public class Simplex {
 	public static float bigMValor = 99999f;
 
 	public ArrayList<Variavel> listaVariaveisGlobal;
-
+	boolean notBigM = false;
+	
 	//variaveis para a tela
 	public String situacao;
 	public String degenerado = "";
 	//variaveis para a tela
+	
 	
 	public static enum TIPO {
 		NAO_OTIMO, OTIMO, NAO_FINITO, MULTIPLO,BIG_M
@@ -37,7 +38,7 @@ public class Simplex {
 
 		variaveisBasicas = setVariaveisBasicas();
 		for (int i = 0; i < numeroColunas; i++) {
-			if (tabela[linhaZ][i] != bigMValor) {
+			if (tabela[linhaZ][i] != bigMValor && tabela[linhaZ][i] != 0) {
 				tabela[linhaZ][i] = tabela[numeroLinhas - 1][i] * -1;
 			}
 		}
@@ -45,11 +46,12 @@ public class Simplex {
 	}
 
 	public TIPO compute() {
-		while (verificaBigM()) {
+		while (verificaBigM() && notBigM) {
 			print();
 			tabela = bigM();
 			print();
 			situacao = "Aplicando Metodo Big M";
+			notBigM = false;
 			
 		} 
 			if (verificaOtimo()) {
